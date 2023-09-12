@@ -130,6 +130,16 @@ class AccountBankStatementImportSheetParser(models.TransientModel):
             if mapping.debit_credit_column
             else None
         )
+        columns["debit_value"] = (
+            header.index(mapping.debit_value)
+            if mapping.debit_value
+            else None
+        )
+        columns["credit_value"] = (
+            header.index(mapping.credit_value)
+            if mapping.credit_value
+            else None
+        )
         columns["transaction_id_column"] = (
             header.index(mapping.transaction_id_column)
             if mapping.transaction_id_column
@@ -258,9 +268,20 @@ class AccountBankStatementImportSheetParser(models.TransientModel):
                 balance = None
 
             if debit_credit:
-                amount = amount.copy_abs()
-                if debit_credit == mapping.debit_value:
-                    amount = -amount
+                debit_value = (
+                    values[columns["debit_value"]]
+                    if columns["debit_value"] is not None
+                    else None
+                )
+                credit_value = (
+                    values[columns["credit_value"]]
+                    if columns["credit_value"] is not None
+                    else None
+                )
+                if debit_value:
+                    amount = -self._parse_decimal(debit_value, mapping)
+                elif credit_value:
+                    amount = self._parse_decimal(credit_value, mapping)
 
             if not original_currency:
                 original_currency = currency
