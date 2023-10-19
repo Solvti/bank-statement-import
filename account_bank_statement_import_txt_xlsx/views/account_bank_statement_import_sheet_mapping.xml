@@ -40,15 +40,15 @@
                             <field name="timestamp_format" />
                         </group>
                         <group
-                            attrs="{'invisible': [('debit_credit_column', '=', False)]}"
+                            attrs="{'invisible': [('debit_credit_column', 'in', [False, ''])]}"
                         >
                             <field
                                 name="debit_value"
-                                attrs="{'required': [('debit_credit_column', '!=', False)]}"
+                                attrs="{'required': [('debit_credit_column', 'not in', [False, ''])]}"
                             />
                             <field
                                 name="credit_value"
-                                attrs="{'required': [('debit_credit_column', '!=', False)]}"
+                                attrs="{'required': [('debit_credit_column', 'not in', [False, ''])]}"
                             />
                         </group>
                     </group>
