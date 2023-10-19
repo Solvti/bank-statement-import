@@ -96,12 +96,10 @@ class AccountBankStatementImportSheetMapping(models.Model):
     debit_value = fields.Char(
         string="Debit value",
         help="Value of debit/credit column that indicates if it's a debit",
-        default="D",
     )
     credit_value = fields.Char(
         string="Credit value",
         help="Value of debit/credit column that indicates if it's a credit",
-        default="C",
     )
     transaction_id_column = fields.Char(string="Unique transaction ID column",)
     description_column = fields.Char(string="Description column",)
