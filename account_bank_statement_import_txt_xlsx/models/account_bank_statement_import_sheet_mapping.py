@@ -111,17 +111,6 @@ class AccountBankStatementImportSheetMapping(models.Model):
         string="Bank Account column", help="Partner's bank account",
     )
 
-    def write(self, vals):
-        """If debit_credit_column is unset, unset columns debit/credit_value as well where it's currently set."""
-        if "debit_credit_column" in vals and not bool(vals["debit_credit_column"]):
-            for rec in self.filtered(lambda x: x.debit_value or x.credit_value):
-                if rec.debit_value:
-                    rec.write({"debit_value": False})
-                if rec.credit_value:
-                    rec.write({"credit_value": False})
-        res = super().write(vals)
-        return res
-
     @api.onchange("float_thousands_sep")
     def onchange_thousands_separator(self):
         if "dot" == self.float_thousands_sep == self.float_decimal_sep:

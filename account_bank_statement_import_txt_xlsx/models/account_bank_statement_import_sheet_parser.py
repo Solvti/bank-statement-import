@@ -130,16 +130,17 @@ class AccountBankStatementImportSheetParser(models.TransientModel):
             if mapping.debit_credit_column
             else None
         )
-        columns["debit_value"] = (
-            header.index(mapping.debit_value)
-            if mapping.debit_value
-            else None
-        )
-        columns["credit_value"] = (
-            header.index(mapping.credit_value)
-            if mapping.credit_value
-            else None
-        )
+        if mapping.debit_credit_column:
+            columns["debit_value"] = (
+                header.index(mapping.debit_value)
+                if mapping.debit_value
+                else None
+            )
+            columns["credit_value"] = (
+                header.index(mapping.credit_value)
+                if mapping.credit_value
+                else None
+            )
         columns["transaction_id_column"] = (
             header.index(mapping.transaction_id_column)
             if mapping.transaction_id_column
